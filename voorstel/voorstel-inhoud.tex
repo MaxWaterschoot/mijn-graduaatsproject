@@ -20,7 +20,13 @@
 % concrete behoefte is de aanleiding? Noem de mensen voor wie het een probleem
 % is. Vermijd algemeenheden als "bedrijven hebben nood aan".
 
-Vervang deze tekst.
+Tijdens mijn stage bij Endare werk ik voor een klant aan de Kinetec Kompanion
+app, een Android-app waarmee patiënten hun knie trainen met een
+Kinetec-toestel. De app communiceert vandaag enkel via klassieke Bluetooth en
+is gebouwd op Android SDK 21 met verouderde packages, waardoor ze niet meer
+bouwt en niet meer aansluit op de huidige Bluetooth Low Energy (BLE)-standaard.
+Daardoor kunnen de klant en zijn gebruikers de app niet langer betrouwbaar
+inzetten om te trainen.
 
 %---------- 2. Doelstelling ---------------------------------------------------
 
@@ -31,7 +37,11 @@ Vervang deze tekst.
 % het als een resultaat waarvan iemand kan vaststellen dat het er is, en
 % vermeld waaraan je zal merken dat het geslaagd is.
 
-Vervang deze tekst.
+Op het einde van dit project bestaat er een versie van de Kinetec Kompanion
+app die opnieuw bouwt op Android SDK 37, met bijgewerkte of vervangen
+packages, en die via BLE verbinding maakt met het toestel. Het project is
+geslaagd wanneer de app foutloos bouwt, op een recent Android-toestel/tablet een
+BLE-verbinding opzet en een volledige kniebehandeling kan doorlopen.
 
 %---------- 3. Technologieën --------------------------------------------------
 
@@ -49,7 +59,13 @@ Vervang deze tekst.
 % dat dan nu al in één zin: dan weet je begeleider meteen dat de AVG of de
 % AI Act meespeelt, en kan dat mee bekeken worden bij de goedkeuring.
 
-Vervang deze tekst.
+De taal: Native Android in Android Studio met
+Gradle, de Android SDK (van niveau 21 naar 37) en de Android
+Bluetooth-API's, zowel klassiek als BLE. Zelf kies ik welke packages ik
+bijwerk en welke vervangers ik zoek voor packages die niet meer ondersteund
+worden. Native Android en BLE zijn nieuw voor mij. Ik zet AI in als hulp bij
+het analyseren van buildfouten en het opzoeken van migratiepaden. Er zit geen
+AI in de app zelf.
 
 %---------- 4. Afbakening -----------------------------------------------------
 
@@ -68,7 +84,17 @@ Vervang deze tekst.
 % Toets voor jezelf: welke analyse en welk ontwerp maak jij zelf? Kan je daar
 % niets over schrijven, dan heb je een taak en geen project.
 
-Vervang deze tekst.
+Mijn dagelijkse stagewerk bij Endare bestaat uit andere opdrachten, zoals de
+integratie tussen ELLA en Odoo. Mijn graduaatsproject is het afgebakende
+geheel rond de Kinetec Kompanion app: ik analyseer zelfstandig welke
+afhankelijkheden breken bij de sprong van SDK 21 naar 37, kies en verantwoord
+vervangers, breng de app eerst opnieuw aan het bouwen en ontwerp daarna de
+BLE-communicatielaag.
+Buiten de afbakening vallen een herwerking van de gebruikersinterface
+(eventueel later), wijzigingen aan de firmware van het Kinetec-toestel, een
+iOS-versie en nieuwe functionaliteit die niet nodig is om de app weer volledig
+te ondersteunen.
+
 
 %---------- 5. Verwachte meerwaarde -------------------------------------------
 
@@ -79,7 +105,10 @@ Vervang deze tekst.
 % stage afgelopen is? Denk aan tijdwinst, minder fouten, nieuwe mogelijkheden,
 % lagere kosten, of een basis waarop verder gebouwd kan worden.
 
-Vervang deze tekst.
+De klant krijgt een app terug die weer bouwt, onderhouden kan worden en
+gebruikers opnieuw laat trainen. Doordat de app op een recent SDK-niveau en
+op de BLE-standaard draait, gaat ze weer jaren mee en vormt ze een basis voor
+latere verbeteringen, zoals een gebruiksvriendelijkere interface.
 
 %---------- 6. Planning en werkbelasting --------------------------------------
 
@@ -93,22 +122,23 @@ Vervang deze tekst.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{llr}
+  \small
+  \begin{tabular}{@{}p{0.3\columnwidth}p{0.47\columnwidth}r@{}}
     \toprule
     \textbf{Fase} & \textbf{Wat lever je op} & \textbf{Uren} \\
     \midrule
-    Analyse en vereisten      & overzicht van de vereisten   & 15  \\
-    Technologiekeuze          & verantwoorde keuze           & 10  \\
-    Ontwerp                   & architectuur en gegevensmodel& 15  \\
-    Realisatie                & werkende oplossing           & 40  \\
-    Testen en validatie       & testverslag                  & 10  \\
-    Rapport, poster en demo   & de op te leveren documenten  & 10  \\
+    Analyse en vereisten       & huidige app en buildomgeving, BLE-vereisten & 15  \\
+    Migratie SDK en packages   & app bouwt op SDK 37, keuze per package      & 35  \\
+    Ontwerp                    & ontwerp BLE-communicatielaag                & 10  \\
+    Realisatie BLE             & werkende BLE-verbinding                     & 20  \\
+    Testen en validatie        & testverslag op echt toestel                & 10  \\
+    Rapport, poster en demo    & de op te leveren documenten                & 10  \\
     \midrule
-    \textbf{Totaal}           &                              & \textbf{100} \\
+    \textbf{Totaal}            &                                            & \textbf{100} \\
     \bottomrule
   \end{tabular}
   \caption[Planning en werkbelasting]{\label{tab:vst-planning}%
-    Vervang deze verdeling door je eigen planning.}
+    Werkuren.}
 \end{table}
 
 %---------- 7. Risico's -------------------------------------------------------
@@ -123,4 +153,8 @@ Vervang deze tekst.
 %
 % Twee tot drie risico's met telkens één zin over wat je terugvalplan is.
 
-Vervang deze tekst.
+Sommige packages worden niet meer ondersteund en hebben geen directe
+vervanger: dan herschrijf ik de nodige functionaliteit zelf of beperk ik ze in
+overleg met de klant of Endare zelf. Eventueel een vervang package.
+Native Android is nieuw voor mij. Daarom start ik met de taal te leren kennen, voor ik me verdiep op packages of BLE.
+De klant wil meer uitbreiding van de app. Wat uren bijvraagt.
