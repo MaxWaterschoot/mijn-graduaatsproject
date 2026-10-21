@@ -16,109 +16,97 @@
 \section{Context en probleemstelling}%
 \label{vst:context}
 
-% Waar loop je stage, wat doet dat team, en welk concreet probleem of welke
-% concrete behoefte is de aanleiding? Noem de mensen voor wie het een probleem
-% is. Vermijd algemeenheden als "bedrijven hebben nood aan".
-
-Tijdens mijn stage bij Endare werk ik voor een klant aan de Kinetec Kompanion
-app, een Android-app waarmee patiënten hun knie trainen met een
-Kinetec-toestel. De app communiceert vandaag enkel via klassieke Bluetooth en
-is gebouwd op Android SDK 21 met verouderde packages, waardoor ze niet meer
-bouwt en niet meer aansluit op de huidige Bluetooth Low Energy (BLE)-standaard.
-Daardoor kunnen de klant en zijn gebruikers de app niet langer betrouwbaar
-inzetten om te trainen.
+Bij Endare moeten medewerkers regelmatig gevoelige gegevens, zoals
+wachtwoorden, API-sleutels en toegangsgegevens, met klanten delen. Vandaag
+gebeurt dat via e-mail of chat. Daar blijven die gegevens onbeperkt staan en
+zijn ze leesbaar voor iedereen die later toegang krijgt tot die berichten.
+Externe diensten zoals onetimesecret.com zijn een alternatief, maar dan ligt
+de data bij een derde partij waar Endare geen controle over heeft.
 
 %---------- 2. Doelstelling ---------------------------------------------------
 
 \section{Doelstelling}%
 \label{vst:doelstelling}
 
-% Wat bestaat er op het einde van dit project dat er vandaag niet is? Formuleer
-% het als een resultaat waarvan iemand kan vaststellen dat het er is, en
-% vermeld waaraan je zal merken dat het geslaagd is.
-
-Op het einde van dit project bestaat er een versie van de Kinetec Kompanion
-app die opnieuw bouwt op Android SDK 37, met bijgewerkte of vervangen
-packages, en die via BLE verbinding maakt met het toestel. Het project is
-geslaagd wanneer de app foutloos bouwt, op een recent Android-toestel/tablet een
-BLE-verbinding opzet en een volledige kniebehandeling kan doorlopen.
+Op het einde van dit project bestaat er een OneTimeSecret-platform dat Endare
+zelf host en beheert. Endare-medewerkers melden aan met hun Google
+Workspace-account en maken een secret aan met inhoud, levensduur en
+wachtwoord. Daarbij krijgen ze een unieke link voor de klant. Het project is
+geslaagd wanneer aan de volgende voorwaarden voldaan is:
+\begin{itemize}
+  \item een klant kan het secret via die link en het wachtwoord exact één
+        keer bekijken;
+  \item het secret is daarna aantoonbaar van de server verwijderd;
+  \item de inhoud staat op geen enkel moment onversleuteld in de databank.
+\end{itemize}
 
 %---------- 3. Technologieën --------------------------------------------------
 
 \section{Technologieën}%
 \label{vst:technologieen}
 
-% Met welke talen, frameworks, databanken en diensten ga je werken? Welke
-% liggen vast door de omgeving van het bedrijf, en welke kies je zelf? Vermeld
-% ook wat nieuw voor je is: technologische verbreding wordt gewaardeerd.
-%
-% Vermeld hier ook of je AI denkt in te zetten, en waarvoor. Dat mag en wordt
-% zelfs verwacht; in je rapport verantwoord je later wat je precies gedaan hebt.
-%
-% Verwerkt je toepassing persoonsgegevens, of zit er AI in wat je bouwt? Zeg
-% dat dan nu al in één zin: dan weet je begeleider meteen dat de AVG of de
-% AI Act meespeelt, en kan dat mee bekeken worden bij de goedkeuring.
+Ik bouw een webapplicatie met een TypeScript/Node.js-backend, een
+React-frontend en een PostgreSQL-databank. De applicatie draait in Docker
+zodat ze op de infrastructuur van Endare gehost kan worden.
 
-De taal: Native Android in Android Studio met
-Gradle, de Android SDK (van niveau 21 naar 37) en de Android
-Bluetooth-API's, zowel klassiek als BLE. Zelf kies ik welke packages ik
-bijwerk en welke vervangers ik zoek voor packages die niet meer ondersteund
-worden. Native Android en BLE zijn nieuw voor mij. Ik zet AI in als hulp bij
-het analyseren van buildfouten en het opzoeken van migratiepaden. Er zit geen
-AI in de app zelf.
+Voor de authenticatie gebruik ik Google OAuth 2.0 / OpenID Connect, beperkt
+tot het Endare-domein. Voor de encryptie leid ik een sleutel af van het
+wachtwoord met Argon2id en versleutel ik de inhoud met AES-256-GCM, telkens
+met bewezen cryptografische bibliotheken. Als uitbreiding koppel ik het
+platform aan de API van Passbolt.
+
+Nieuw voor mij zijn het toepassen van cryptografie in een echte applicatie,
+OpenID Connect en de Passbolt API. Ik zet AI in als hulp bij het opzoeken
+van best practices, het nalezen van code en het schrijven van tests. Er zit
+geen AI in de applicatie zelf.
+
+De applicatie verwerkt persoonsgegevens: naam en e-mailadres van
+medewerkers. De secrets kunnen bovendien gevoelige klantgegevens bevatten,
+dus de AVG speelt mee.
 
 %---------- 4. Afbakening -----------------------------------------------------
 
 \section{Afbakening}%
 \label{vst:afbakening}
 
-% DE BELANGRIJKSTE RUBRIEK. Je stage en je graduaatsproject lopen bij hetzelfde
-% bedrijf; dit is waar je ze uit elkaar houdt.
-%
-% Beschrijf:
-%   - wat je dagelijkse stagewerk is;
-%   - wat het afgebakende geheel is dat JIJ zelfstandig analyseert, ontwerpt
-%     en oplevert - dat is je graduaatsproject;
-%   - wat er uitdrukkelijk buiten valt.
-%
-% Toets voor jezelf: welke analyse en welk ontwerp maak jij zelf? Kan je daar
-% niets over schrijven, dan heb je een taak en geen project.
-
 Mijn dagelijkse stagewerk bij Endare bestaat uit andere opdrachten, zoals de
 integratie tussen ELLA en Odoo. Mijn graduaatsproject is het afgebakende
-geheel rond de Kinetec Kompanion app: ik analyseer zelfstandig welke
-afhankelijkheden breken bij de sprong van SDK 21 naar 37, kies en verantwoord
-vervangers, breng de app eerst opnieuw aan het bouwen en ontwerp daarna de
-BLE-communicatielaag.
-Buiten de afbakening vallen een herwerking van de gebruikersinterface
-(eventueel later), wijzigingen aan de firmware van het Kinetec-toestel, een
-iOS-versie en nieuwe functionaliteit die niet nodig is om de app weer volledig
-te ondersteunen.
+geheel rond het OneTimeSecret-platform. Ik analyseer zelfstandig de vereisten
+en de beveiligingsrisico's, en ik ontwerp:
+\begin{itemize}
+  \item de architectuur;
+  \item het datamodel;
+  \item het encryptieschema, met de keuze en verantwoording van het
+        sleutelafleidings- en encryptie-algoritme;
+  \item de flow voor eenmalig bekijken en verwijderen.
+\end{itemize}
+Daarna realiseer, test en deploy ik het platform. De Passbolt-integratie is
+een uitbreiding die ik enkel aanpak als de kern tijdig af is.
 
-
+Buiten de afbakening vallen:
+\begin{itemize}
+  \item accounts of een login voor klanten;
+  \item het delen van bestanden of bijlagen;
+  \item uitgebreid rollen- en rechtenbeheer;
+  \item een beheerdashboard met statistieken;
+  \item integraties met andere tools dan Passbolt.
+\end{itemize}
 %---------- 5. Verwachte meerwaarde -------------------------------------------
 
 \section{Verwachte meerwaarde}%
 \label{vst:meerwaarde}
 
-% Wat heeft het bedrijf hieraan? Wat blijft er van jouw werk over wanneer je
-% stage afgelopen is? Denk aan tijdwinst, minder fouten, nieuwe mogelijkheden,
-% lagere kosten, of een basis waarop verder gebouwd kan worden.
-
-De klant krijgt een app terug die weer bouwt, onderhouden kan worden en
-gebruikers opnieuw laat trainen. Doordat de app op een recent SDK-niveau en
-op de BLE-standaard draait, gaat ze weer jaren mee en vormt ze een basis voor
-latere verbeteringen, zoals een gebruiksvriendelijkere interface.
+Endare kan gevoelige gegevens veilig en traceerbaar met klanten delen, zonder
+dat die in mailboxen of chatgeschiedenis achterblijven en zonder afhankelijk
+te zijn van een externe dienst. Na mijn stage blijft er een gedocumenteerd,
+gedeployd intern platform over dat het team dagelijks kan gebruiken. Het
+vormt ook een basis voor verdere uitbreidingen, zoals de koppeling met
+Passbolt.
 
 %---------- 6. Planning en werkbelasting --------------------------------------
 
 \section{Planning en werkbelasting}%
 \label{vst:planning}
-
-% Het graduaatsproject is ongeveer tien werkdagen, samen ongeveer 100 uren.
-% Verdeel die over de fasen van je project en geef per fase aan wat je oplevert.
-% Vermeld ook of je die dagen gefocust opneemt of gespreid over de stageperiode,
-% en dat je dit met je mentor afgesproken hebt.
 
 \begin{table}[htbp]
   \centering
@@ -127,14 +115,16 @@ latere verbeteringen, zoals een gebruiksvriendelijkere interface.
     \toprule
     \textbf{Fase} & \textbf{Wat lever je op} & \textbf{Uren} \\
     \midrule
-    Analyse en vereisten       & huidige app en buildomgeving, BLE-vereisten & 15  \\
-    Migratie SDK en packages   & app bouwt op SDK 37, keuze per package      & 35  \\
-    Ontwerp                    & ontwerp BLE-communicatielaag                & 10  \\
-    Realisatie BLE             & werkende BLE-verbinding                     & 20  \\
-    Testen en validatie        & testverslag op echt toestel                & 10  \\
-    Rapport, poster en demo    & de op te leveren documenten                & 10  \\
+    Analyse en vereisten         & vereisten, dreigingsanalyse                  & 10  \\
+    Ontwerp                      & architectuur, datamodel, encryptieschema     & 10  \\
+    Secrets aanmaken             & versleutelde opslag, unieke link             & 20  \\
+    Eenmalig bekijken            & ontsleuteling, verwijdering, verloop         & 15  \\
+    Deployment                   & Docker-setup op Endare-infrastructuur        & 10  \\
+    Testen en validatie          & geautomatiseerde tests, securitycontrole     & 10  \\
+    Rapport, poster en demo      & de op te leveren documenten                  & 10  \\
+    Uitbreiding Passbolt         & placeholders, ophalen bij bekijken           & 15  \\
     \midrule
-    \textbf{Totaal}            &                                            & \textbf{100} \\
+    \textbf{Totaal}              &                                              & \textbf{100} \\
     \bottomrule
   \end{tabular}
   \caption[Planning en werkbelasting]{\label{tab:vst-planning}%
@@ -146,15 +136,11 @@ latere verbeteringen, zoals een gebruiksvriendelijkere interface.
 \section{Risico's}%
 \label{vst:risicos}
 
-% Wat kan dit project doen mislukken, en wat doe je dan? Denk aan: toegang tot
-% gegevens of systemen die je nodig hebt, afhankelijkheid van een collega of
-% een derde partij, technologie die je nog moet leren, of drukte op de
-% werkvloer waardoor je dagen niet vrijkomen.
-%
-% Twee tot drie risico's met telkens één zin over wat je terugvalplan is.
-
-Sommige packages worden niet meer ondersteund en hebben geen directe
-vervanger: dan herschrijf ik de nodige functionaliteit zelf of beperk ik ze in
-overleg met de klant of Endare zelf. Eventueel een vervang package.
-Native Android is nieuw voor mij. Daarom start ik met de taal te leren kennen, voor ik me verdiep op packages of BLE.
-De klant wil meer uitbreiding van de app. Wat uren bijvraagt.
+\begin{itemize}
+  \item \textbf{Fouten in de encryptie maken het platform onveilig.} Ik
+        gebruik daarom enkel vertrouwde bibliotheken, geen zelfgeschreven
+        cryptografie, en laat het encryptieschema nalezen door een ervaren
+        collega bij Endare.
+  \item \textbf{Aanmaken project en JIRA bord.} Ik z.s.m al aan om het project op bitbucket en JIRA te zetten.
+  \item \textbf{De kern neemt meer tijd dan gepland.} Passbolt integreren aan de kat schuiven en als eventuele uitbreiding gebruiken.
+\end{itemize}
